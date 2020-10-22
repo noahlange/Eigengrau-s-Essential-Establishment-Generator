@@ -12,12 +12,12 @@ setup.createGeneralStore = (town, opts = {}) => {
   }, opts.npc))
   lib.createBuildingRelationship(town, generalStore, generalStore.associatedNPC, { relationship: 'owner', reciprocalRelationship: 'business' })
   Object.assign(generalStore, {
-    note: lib.generalStore.get.note(generalStore),
-    shopkeepNote: lib.generalStore.get.shopkeepNote(generalStore),
-    say: lib.generalStore.get.say(generalStore),
+    note: lib.generalStoreData.get.note(generalStore),
+    shopkeepNote: lib.generalStoreData.get.shopkeepNote(generalStore),
+    say: lib.generalStoreData.get.say(generalStore),
     wordNoun: ['general store', 'shop'].random(),
-    crud: lib.generalStore.crud.random(),
-    idle: lib.generalStore.idle.random(),
+    crud: lib.generalStoreData.crud.random(),
+    idle: lib.generalStoreData.idle.random(),
     notableFeature: 'wide range of goods on sale',
     passageName: 'generalStoreOutput',
     initPassage: 'InitgeneralStore',
@@ -28,7 +28,7 @@ setup.createGeneralStore = (town, opts = {}) => {
   lib.createGeneralStoreName(town, generalStore)
   lib.generalStoreModifiers(town, generalStore)
 
-  const rollData = lib.generalStore.rollData
+  const rollData = lib.generalStoreData.rollData
   for (const propName of lib.keys(rollData)) {
     lib.defineRollDataGetter(generalStore, rollData, propName)
   }
