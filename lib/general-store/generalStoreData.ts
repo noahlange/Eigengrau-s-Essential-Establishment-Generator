@@ -6,7 +6,7 @@ import { colours } from '../src/colours'
 import { ThresholdTable } from '../src/rollFromTable'
 import { NPC } from '../npc-generation/_common'
 
-export const generalStore = {
+export const generalStoreData = {
   goods: {
     'food staples': ['beans', 'milk', 'flour', 'oil', 'butter'],
     'tools': ['hammers', 'nails', 'wood', 'quills', 'rope'],
@@ -198,6 +198,100 @@ export const generalStore = {
       [10, 'amateur'],
       [0, 'blatantly amateur']
     ] as ThresholdTable
+  },
+  name: {
+    adjective: ['Dependable', 'Reliable', 'Expendable', 'Indispensible', 'Incomparable', 'Incredible', 'Excellent', 'Important', 'Cheap', 'Affordable', 'Affable', 'Discount', 'Low-Cost', 'Fancy'],
+    noun: ['Mount', 'Saddle', 'Guild', 'Fangs', 'Man', 'Pardon', 'Pleasure', 'Belt', 'Staff', 'Shield', 'Prince', 'Master', 'Servant', 'Meal', 'Prince', 'Favor', 'Love', 'Word', 'Scribe', 'Apprentice', 'Acolyte', 'Dress', 'Goddess', 'God', 'Gold', 'Purse', 'Trap', 'King', 'Son', 'Sister', 'Mother', 'Daughter', 'Cry', 'Shout', 'Cupboard', 'Pantry', 'Queen', 'Wealth', 'Star', 'Void', 'Woman', 'Man', 'Whore', 'Butcher', 'Anvil', 'Tome', 'Sacrifice', 'Armor', 'Cup', 'Pot', 'Stove', 'Stool', 'Princess', 'Chain', 'Sword', 'Pork', 'Grain', 'Tooth', 'Lance', 'Axe', 'Scabbard', 'Knife', 'Dagger', 'Spear', 'Bow', 'Crossbow', 'Quarterstaff', 'Staff', 'Fire', 'Ice', 'Wind', 'Earth', 'Water', 'Stone', 'Ladle', 'Monastery', 'Chalice', 'Goblet', 'Dungeon', 'Lust', 'Lantern', 'Bone', 'Life', 'Stone', 'Mistress', 'Mind', 'Treasure', 'Barter', 'Armorer', 'Butler', 'Page', 'Tome', 'Feather', 'Shadow', 'Friend', 'Labyrinth', 'Mountain', 'Hope', 'Boot', 'Gauntlet'],
+    family: ['son', 'daughter', 'brother', 'sister', 'uncle', 'aunt', 'father', 'friend', 'family', 'employee'],
+    rider: ['Shop', 'Bazaar', 'Convenience Store', 'Trading Post', 'Warehouse', 'Antiquerie', 'Adventure Supplier', 'Supplier', 'Goods', 'Goods and Bads', 'Stock Shop', 'Wares']
+  },
+  family (associatedNPC: NPC) {
+    const fam = {
+      son: {
+        relationships: {
+          [associatedNPC.key]: associatedNPC.parentNoun
+        },
+        gender: 'man',
+        race: associatedNPC.race,
+        lastName: associatedNPC.lastName,
+        ageStage: 'young adult'
+      },
+      daughter: {
+        relationships: {
+          [associatedNPC.key]: associatedNPC.parentNoun
+        },
+        gender: 'woman',
+        race: associatedNPC.race,
+        lastName: associatedNPC.lastName,
+        ageStage: 'young adult'
+      },
+      brother: {
+        relationships: {
+          [associatedNPC.key]: associatedNPC.siblingNoun
+        },
+        gender: 'man',
+        race: associatedNPC.race,
+        lastName: associatedNPC.lastName,
+        ageStage: associatedNPC.ageStage
+      },
+      sister: {
+        relationships: {
+          [associatedNPC.key]: associatedNPC.siblingNoun
+        },
+        gender: 'woman',
+        race: associatedNPC.race,
+        lastName: associatedNPC.lastName,
+        ageStage: associatedNPC.ageStage
+      },
+      uncle: {
+        relationships: {
+          [associatedNPC.key]: associatedNPC.niblingNoun
+        },
+        gender: 'man',
+        race: associatedNPC.race,
+        lastName: associatedNPC.lastName,
+        ageStage: 'settled adult'
+      },
+      aunt: {
+        relationships: {
+          [associatedNPC.key]: associatedNPC.niblingNoun
+        },
+        gender: 'woman',
+        race: associatedNPC.race,
+        lastName: associatedNPC.lastName,
+        ageStage: 'settled adult'
+      },
+      father: {
+        relationships: {
+          [associatedNPC.key]: associatedNPC.childNoun
+        },
+        gender: 'man',
+        race: associatedNPC.race,
+        lastName: associatedNPC.lastName,
+        ageStage: 'settled adult'
+      },
+      friend: {
+        relationships: {
+          [associatedNPC.key]: 'friend'
+        },
+        ageStage: 'settled adult'
+      },
+      family: {
+        relationships: {
+          [associatedNPC.key]: 'relative'
+        },
+        race: associatedNPC.race,
+        lastName: associatedNPC.lastName,
+        ageStage: 'settled adult'
+      },
+      employee: {
+        relationships: {
+          [associatedNPC.key]: 'employer'
+        },
+        gender: 'man'
+      }
+    }
+    return fam
   },
   get: {
     customers: [
