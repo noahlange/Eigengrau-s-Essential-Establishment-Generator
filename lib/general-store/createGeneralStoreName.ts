@@ -6,6 +6,7 @@ import { GeneralStore } from './_common'
 import { toTitleCase } from '../src/toTitleCase'
 
 export function createGeneralStoreName (town: Town, generalStore: GeneralStore): void {
+  console.log('Creating a name for the general store...')
   const { associatedNPC } = generalStore
   const noun = random(generalStoreData.name.noun)
   const adjective = random(generalStoreData.name.adjective)
