@@ -1,5 +1,36 @@
+import type { GenderName } from '../../../lib/index'
+import type { NPC } from '../../../lib/npc-generation/_common'
+import type { Town } from '../../../lib/town/_common'
+
+declare global {
+  interface Setup {
+    /**
+     * Creates a relationship between two NPCs.
+     */
+    createRelationship(
+      town: Town,
+      sourceNPC: string | NPC,
+      targetNPC: string | NPC,
+      type: Type,
+      targetType: string
+    ): void
+  }
+}
+
+type Type =
+  | string
+  | {
+      relationship: string
+      reciprocalRelationship?: string
+    }
+
+export type Kinsey = {
+  sexuality: string
+  partnerGenderProbability(npc: NPC): GenderName
+}
+
 // uses State.variables.npcs
-setup.createRelationship = (town, sourceNPC, targetNPC, type, targetType) => {
+export function createRelationship (town: Town, sourceNPC: NPC, targetNPC: NPC, type: Type, targetType: string): void {
   console.log('Forming a relationship.', sourceNPC, targetNPC)
 
   const { npcs } = State.variables

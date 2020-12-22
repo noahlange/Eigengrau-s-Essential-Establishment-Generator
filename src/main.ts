@@ -3,7 +3,7 @@
  * bundles all the code imported here into a single JS file (`/src/init.js`) to be
  * loaded by Tweego alongside loose scripts in `/src`
 */
-import './NPCGeneration/Relationships/getFatherMother'
+import './NPCGeneration/Relationships'
 
 /**
  * Initializes the data structures.

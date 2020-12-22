@@ -3,7 +3,7 @@ import type { Town } from '../../../lib/town/_common'
 
 declare global {
   interface Setup {
-    getFatherMother(town: Town, npc: NPC): Parents
+    getFatherMother: typeof getFatherMother
   }
 }
 
@@ -15,7 +15,7 @@ interface Parents {
 console.log('bar')
 
 // uses State.variables.npcs
-export function getFatherMother (town, npc) {
+export function getFatherMother (town: Town, npc: NPC): Parents {
   let father: NPC
   let mother: NPC
 
@@ -33,5 +33,3 @@ export function getFatherMother (town, npc) {
 
   return { father, mother }
 }
-
-setup.getFatherMother = getFatherMother

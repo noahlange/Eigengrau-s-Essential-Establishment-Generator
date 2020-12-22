@@ -1,9 +1,12 @@
-/**
- * @warn Uses State.variables.npcs
- * @param {import("../../../lib/npc-generation/_common").NPC} npc1
- * @param {import("../../../lib/npc-generation/_common").NPC} npc2
- */
-setup.setAsPartners = (npc1, npc2) => {
+import type { NPC } from '../../../lib/npc-generation/_common'
+
+declare global {
+  interface Setup {
+    setAsPartners: typeof setAsPartners
+  }
+}
+
+export function setAsPartners (npc1: NPC, npc2: NPC) {
   const npcs = State.variables.npcs
   if (!npc1 || !npc2 || !npc1.key || !npc2.key) {
     console.warn('Called setAsPartners() with a null/undefined argument')

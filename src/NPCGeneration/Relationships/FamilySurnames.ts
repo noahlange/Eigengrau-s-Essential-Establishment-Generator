@@ -1,18 +1,25 @@
+import type { Marriage } from './createFamilyMembers'
+
+declare global {
+  interface Setup {
+    marriageIsMatrilineal: typeof marriageIsMatrilineal
+    getParentSurnames: typeof getParentSurnames
+    getChildSurname: typeof getChildSurname
+  }
+}
+
+export interface ParentSurnames { fatherSurname: string, motherSurname: string }
+
 // uses State.variables.npcs
 // TODO test matrilineal marriages
-/**
- * @param {import("./createFamilyMembers").Marriage} marriage
- */
-setup.marriageIsMatrilineal = marriage => {
+export function marriageIsMatrilineal (marriage: Marriage): boolean {
   return false
 }
 
 /**
- * @param {import("./createFamilyMembers").Marriage} marriage
- * @description Given a marriage with at least one child, determine parent surnames
- * @warn Uses State.variables.npcs
+ * Given a marriage with at least one child, determine parent surnames
  */
-setup.getParentSurnames = marriage => {
+export function getParentSurnames (marriage: Marriage): ParentSurnames {
   let familyName, fatherSurname, motherSurname
   if (marriage.children.length) {
     familyName = State.variables.npcs[marriage.children[0]].lastName
@@ -26,11 +33,9 @@ setup.getParentSurnames = marriage => {
 }
 
 /**
- * @param {import("./createFamilyMembers").Marriage} marriage
- * @description Given a marriage with at least one parent or child, determine child surnames
- * @warn uses State.variables.npcs
+ * Given a marriage with at least one parent or child, determine child surnames
  */
-setup.getChildSurname = marriage => {
+export function getChildSurname (marriage: Marriage): string | undefined {
   if (marriage.children.length !== 0) { return State.variables.npcs[marriage.children[0]].lastName }
 
   if (marriage.parents.length === 0) return undefined

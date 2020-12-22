@@ -1,3 +1,20 @@
+import type { NPC } from '../../setup'
+import type { Marriage } from './createFamilyMembers'
+
+declare global {
+  interface Setup {
+    familyData: {
+      parentStageTable: [number, string][];
+      parentAge: (npc: NPC) => number;
+      siblingAge: (npc: NPC) => number;
+      childAge: (marriage: Marriage) => number;
+      partnerAge: (npc: NPC) => number;
+      siblingRoll: () => number;
+      relativeBase: (npc: NPC) => Partial<NPC>
+    },
+  }
+}
+
 // types are stored in setup.d.ts
 // don't bother creating a FamilyData.d.ts
 // you'll waste your time like me
@@ -9,30 +26,17 @@ setup.familyData = {
     [35, 'settled adult'],
     [10, 'elderly']
   ],
-  /**
-   * @param {import("../../../lib/npc-generation/_common").NPC} npc
-   * @returns {number}
-   */
-  parentAge: (npc) => {
+  parentAge: (npc: NPC): number => {
     const race = npc.race || 'human'
     const parentStage = lib.rollFromTable(setup.familyData.parentStageTable, 100)
     const { baseAge, ageModifier } = lib.raceTraits[race].ageTraits[parentStage]
     return npc.ageYears + baseAge + ageModifier()
   },
-  /**
-   * @param {import("../../../lib/npc-generation/_common").NPC} npc
-   * @returns {number}
-   */
-  siblingAge: (npc) => {
+  siblingAge: (npc: NPC) => {
     const race = npc.race || 'human'
     const { baseAge } = lib.raceTraits[race].ageTraits['young adult']
     return npc.ageYears + random(-baseAge, baseAge)
   },
-  /**
-   * @param {import("./createFamilyMembers").Marriage} marriage
-   * @returns {number}
-   * @warn Uses State.variables.npcs
-   */
   childAge: (marriage) => {
     if (marriage.parents.length > 0) {
       // find the youngest parent
@@ -48,17 +52,13 @@ setup.familyData = {
       return 0
     }
   },
-  /**
-   * @param {import("../../../lib/npc-generation/_common").NPC} npc
-   * @returns {number}
-   */
-  partnerAge: (npc) => {
+  partnerAge: (npc: NPC) => {
     const race = npc.race || 'human'
     const { baseAge } = lib.raceTraits[race].ageTraits['young adult']
     return npc.ageYears + random(-baseAge, baseAge)
   },
 
-  siblingRoll: () => {
+  siblingRoll: (): number => {
     switch (random(1, 5)) {
       case 1:
         return 0
@@ -72,11 +72,7 @@ setup.familyData = {
         return random(4, 11)
     }
   },
-  /**
-   * @param {import("../../../lib/npc-generation/_common").NPC} npc
-   * @returns {Partial<import("../../../lib/npc-generation/_common").NPC>}
-   */
-  relativeBase: (npc) => ({
+  relativeBase: (npc: NPC): Partial<NPC> => ({
     // lastName: npc.lastName,
     race: npc.race,
     family: npc.family,

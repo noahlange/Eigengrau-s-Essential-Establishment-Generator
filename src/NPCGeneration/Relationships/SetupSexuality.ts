@@ -1,11 +1,18 @@
+import type { NPC } from '../../setup'
+import type { Kinsey } from './createRelationship'
+
+declare global {
+  interface Setup {
+    createSexuality: typeof createSexuality
+  }
+}
+
 /**
- * @param {import("../../../lib/npc-generation/_common").NPC} npc
- * @description this is just one person's efforts to increase diversity and make an attempt at relatively realistic sexuality modeling
+ * this is just one person's efforts to increase diversity and make an attempt at relatively realistic sexuality modeling
    * I cannot guarantee exact representation, and make no promises for such a thing- this is, at the end of the day, meant to be a tool for DMs.
    * I would, however, be very open to feedback and ways that I could improve the system.
- * @warn Uses State.variables.npcs
  */
-setup.createSexuality = function (npc) {
+export function createSexuality (npc: NPC): void {
   // if a partner exists, then we need to make sure that they are an acceptable gender.
   if (npc.partnerID !== undefined) {
     if (State.variables.npcs[npc.partnerID].gender === npc.gender) {
@@ -21,11 +28,8 @@ setup.createSexuality = function (npc) {
     npc.roll.sexuality = npc.roll.sexuality || roll || 47 + lib.dice(13, 4)
     npc.roll.kinsey = getKinseyRoll(npc.roll.sexuality)
   }
-  /**
-   * @type {Record <number, import("./createRelationship").Kinsey>}
-   * @description true = male, false = female. Very basic function, am aware.
-   */
-  const kinsey = {
+
+  const kinsey: Record<number, Kinsey> = {
     0: {
       sexuality: 'heterosexual',
       partnerGenderProbability (npc) {
@@ -95,11 +99,7 @@ setup.createSexuality = function (npc) {
   Object.assign(npc, kinsey[npc.roll.kinsey])
 }
 
-/**
- * @param {number} sexualityRoll
- * @returns {number}
- */
-function getKinseyRoll (sexualityRoll) {
+function getKinseyRoll (sexualityRoll: number): number {
   if (sexualityRoll < 70) return 0
   if (sexualityRoll < 75) return 1
   if (sexualityRoll < 83) return 2

@@ -1,25 +1,24 @@
+import type { Town } from '../../../lib/town/_common'
+import type { NPC } from '../../setup'
+
+declare global {
+  interface Setup {
+    expandFamily: typeof expandFamily
+    fetchFamily: typeof fetchFamily
+  }
+}
+
 const MARRIAGE_PERCENT = 55
 const REMARRIAGE_PERCENT = 9
 
-/**
- * @param {import("../../../lib/town/_common").Town} town
- * @param {import("../../../lib/npc-generation/_common").NPC} npc
- * @warn Uses setup.createParentage, setup.createMarriage
- */
-setup.expandFamily = function (town, npc) {
-  /**
-   * @type {import("./createFamilyMembers").Family}
-   */
+export function expandFamily (town: Town, npc: NPC): void {
   const family = town.families[npc.family]
   const node = family.members[npc.key]
 
   setup.createParentage(town, family, npc)
 
-  // Marriages and descendants
-  /**
-   * @type {number}
-   */
   const marriageMin = lib.raceTraits[npc.race].ageTraits['young adult'].baseAge
+
   if (npc.ageYears <= marriageMin) {
     node.marriages = []
     node.canRemarry = false
@@ -43,8 +42,7 @@ setup.expandFamily = function (town, npc) {
   }
 }
 
-// Uses setup.expandFamily
-setup.fetchFamily = function (town, npc, depth = 2) {
+export function fetchFamily (town: Town, npc: NPC, depth = 2): Record<string, NPC> {
   // We fetch nodes in breadth-first order.
   const relativeList = [{ key: npc.key, depth: 0, relationship: '', gender: npc.gender }]
   const relatives = {}
